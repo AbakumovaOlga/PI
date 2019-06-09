@@ -83,30 +83,36 @@ namespace PI_Service.ImplementationsBD
 
             foreach (var mat in materials)
             {
-                int buys = 0;
-                List<MaterialBuyBM> materialBuys = context.MaterialBuys.Select(rec => new MaterialBuyBM
-                {
-                    Id = rec.Id,
-                    Count = rec.Count
-                }).Where(rec => rec.MaterialId == mat.Id)
-                        .ToList();
+                /* int buys = 0;
+                 List<MaterialBuyBM> materialBuys = context.MaterialBuys.Select(rec => new MaterialBuyBM
+                 {
+                     Id = rec.Id,
+                     Count = rec.Count,
+                     MaterialId=rec.MaterialId
+                 }).Where(rec => rec.MaterialId == mat.Id)//ошибка materialID
+                         .ToList();
 
-                foreach (MaterialBuyBM materialBuy in materialBuys)
-                {
-                    buys += materialBuy.Count;
-                }
-
-                //выбрать такие заказы, где нужный статус 1,2,3  buys --;
-                throw new NotImplementedException();
+                 foreach (MaterialBuyBM materialBuy in materialBuys)
+                 {
+                     buys += materialBuy.Count;
+                 }
+                 //выбрать такие заказы, где нужный статус 1,2,3  buys --;
+                 throw new NotImplementedException();
+ */
 
                 matOnStock.Add(new MaterialOnStockBM
                 {
+                    Id = mat.Id,
                     Name = context.Sizes.FirstOrDefault(recS => recS.Id == mat.SizeId).Name + "  " + context.Typemys.FirstOrDefault(recT => recT.Id == mat.TypeId).Name + "",
-                    Count = buys
+                    Count = CountOst(mat.Id)
                 });
-
             }
+
+
+            
             return matOnStock;
+           
+
         }
 
         public List<MaterialBuyBM> GetListMaterialBuy()
@@ -127,6 +133,61 @@ namespace PI_Service.ImplementationsBD
         public void UpdMaterial(MaterialBM model)
         {
             throw new NotImplementedException();
+        }
+
+        public int CountOst(int materialId)
+        {
+            int ost = 0; //контрольное значение
+
+            //считаем покупки
+            List<MaterialBuyBM> materialBuys = context.MaterialBuys.Select(rec => new MaterialBuyBM
+            {
+                Id = rec.Id,
+                MaterialId = rec.MaterialId,
+                Count = rec.Count
+            }).Where(rec => rec.MaterialId == materialId).ToList();
+
+
+            foreach (var materialBuy in materialBuys)
+            {
+                ost += materialBuy.Count;
+            }
+
+
+            //считаем расходы
+            List<MaterialOrderBM> materialOrders = context.MaterialOrders.Select(rec => new MaterialOrderBM
+            {
+                Id = rec.Id,
+                MaterialId = rec.MaterialId,
+                OrderId = rec.OrderId
+            }).Where(rec => rec.MaterialId == materialId).ToList();
+
+            foreach (var materialOrder in materialOrders)
+            {
+                Order order = context.Orders.FirstOrDefault(rec => rec.Id == materialOrder.OrderId);
+                if (order.Status != 0)
+                {
+                    ost--;
+                }
+            }
+
+
+            return ost;
+        }
+
+        public List<MaterialBM> GetListSize(int id)
+        {
+            List<MaterialBM> result = context.Materials
+               .Select(rec => new MaterialBM
+               {
+                   Id = rec.Id,
+                   Price = rec.Price,
+                   SizeId = rec.SizeId,
+                   TypeId = rec.TypeId,
+                   Name = context.Sizes.FirstOrDefault(recS => recS.Id == rec.SizeId).Name + "  " + context.Typemys.FirstOrDefault(recT => recT.Id == rec.TypeId).Name + ""
+               }).Where(rec =>rec.SizeId==id)
+               .ToList();
+            return result;
         }
     }
 }

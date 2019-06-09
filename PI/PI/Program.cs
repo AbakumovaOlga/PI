@@ -37,6 +37,7 @@ namespace PI
             currentContainer.RegisterType<IBuyService, BuyServiceBD>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMainService, MainServiceBD>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IUserService, UserServiceBD>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IOrderService, OrderServiceBD>(new HierarchicalLifetimeManager());
 
             currentContainer
        .RegisterType<F_Author>()

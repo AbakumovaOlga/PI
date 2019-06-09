@@ -10,6 +10,8 @@ namespace PI_Service.BindingModels
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public int MaterialId { get; set; }
         public int OrderId { get; set; }
     }

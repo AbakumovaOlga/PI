@@ -63,6 +63,7 @@
     <Compile Include="BindingModels\TypemyBM.cs" />
     <Compile Include="CheckFields.cs" />
     <Compile Include="ImplementationsBD\BuyServiceBD.cs" />
+    <Compile Include="ImplementationsBD\OrderServiceBD.cs" />
     <Compile Include="ImplementationsBD\MainServiceBD.cs" />
     <Compile Include="ImplementationsBD\MaterialServiceBD.cs" />
     <Compile Include="ImplementationsBD\SizeServiceBD.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Interfaces\IBuyService.cs" />
     <Compile Include="Interfaces\IMainService.cs" />
     <Compile Include="Interfaces\IMaterialService.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\ISizeService.cs" />
     <Compile Include="Interfaces\ITypemyService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />

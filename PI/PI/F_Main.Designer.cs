@@ -39,11 +39,17 @@
             this.добавитьМатериалToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьПользователяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьРазмерToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьТипToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заказToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьЗаказToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.типыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.материалыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.размерыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.покупкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.F_Status = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.добавитьТипToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.F_Clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.F_OdersList)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +62,7 @@
             this.F_OdersList.RowTemplate.Height = 28;
             this.F_OdersList.Size = new System.Drawing.Size(776, 300);
             this.F_OdersList.TabIndex = 0;
+            this.F_OdersList.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.F_OdersList_RowHeaderMouseClick);
             // 
             // menuStrip1
             // 
@@ -64,7 +71,8 @@
             this.расходныеМатериалыToolStripMenuItem,
             this.статистикаToolStripMenuItem,
             this.администрированиеToolStripMenuItem,
-            this.заказToolStripMenuItem});
+            this.заказToolStripMenuItem,
+            this.справочникиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 33);
@@ -140,6 +148,13 @@
             this.добавитьРазмерToolStripMenuItem.Text = "Добавить размер";
             this.добавитьРазмерToolStripMenuItem.Click += new System.EventHandler(this.добавитьРазмерToolStripMenuItem_Click);
             // 
+            // добавитьТипToolStripMenuItem
+            // 
+            this.добавитьТипToolStripMenuItem.Name = "добавитьТипToolStripMenuItem";
+            this.добавитьТипToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.добавитьТипToolStripMenuItem.Text = "Добавить тип";
+            this.добавитьТипToolStripMenuItem.Click += new System.EventHandler(this.добавитьТипToolStripMenuItem_Click);
+            // 
             // заказToolStripMenuItem
             // 
             this.заказToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -155,6 +170,45 @@
             this.добавитьЗаказToolStripMenuItem.Text = "Добавить заказ";
             this.добавитьЗаказToolStripMenuItem.Click += new System.EventHandler(this.добавитьЗаказToolStripMenuItem_Click);
             // 
+            // справочникиToolStripMenuItem
+            // 
+            this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.типыToolStripMenuItem,
+            this.материалыToolStripMenuItem,
+            this.размерыToolStripMenuItem,
+            this.покупкиToolStripMenuItem});
+            this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
+            this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
+            this.справочникиToolStripMenuItem.Text = "Справочники";
+            // 
+            // типыToolStripMenuItem
+            // 
+            this.типыToolStripMenuItem.Name = "типыToolStripMenuItem";
+            this.типыToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.типыToolStripMenuItem.Text = "Типы";
+            this.типыToolStripMenuItem.Click += new System.EventHandler(this.типыToolStripMenuItem_Click);
+            // 
+            // материалыToolStripMenuItem
+            // 
+            this.материалыToolStripMenuItem.Name = "материалыToolStripMenuItem";
+            this.материалыToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.материалыToolStripMenuItem.Text = "Материалы";
+            this.материалыToolStripMenuItem.Click += new System.EventHandler(this.материалыToolStripMenuItem_Click);
+            // 
+            // размерыToolStripMenuItem
+            // 
+            this.размерыToolStripMenuItem.Name = "размерыToolStripMenuItem";
+            this.размерыToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.размерыToolStripMenuItem.Text = "Размеры";
+            this.размерыToolStripMenuItem.Click += new System.EventHandler(this.размерыToolStripMenuItem_Click);
+            // 
+            // покупкиToolStripMenuItem
+            // 
+            this.покупкиToolStripMenuItem.Name = "покупкиToolStripMenuItem";
+            this.покупкиToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.покупкиToolStripMenuItem.Text = "Закупки";
+            this.покупкиToolStripMenuItem.Click += new System.EventHandler(this.покупкиToolStripMenuItem_Click);
+            // 
             // F_Status
             // 
             this.F_Status.FormattingEnabled = true;
@@ -162,6 +216,7 @@
             this.F_Status.Name = "F_Status";
             this.F_Status.Size = new System.Drawing.Size(208, 28);
             this.F_Status.TabIndex = 3;
+            this.F_Status.SelectedIndexChanged += new System.EventHandler(this.F_Status_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -172,18 +227,22 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Статус заказа";
             // 
-            // добавитьТипToolStripMenuItem
+            // F_Clear
             // 
-            this.добавитьТипToolStripMenuItem.Name = "добавитьТипToolStripMenuItem";
-            this.добавитьТипToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
-            this.добавитьТипToolStripMenuItem.Text = "Добавить тип";
-            this.добавитьТипToolStripMenuItem.Click += new System.EventHandler(this.добавитьТипToolStripMenuItem_Click);
+            this.F_Clear.Location = new System.Drawing.Point(759, 104);
+            this.F_Clear.Name = "F_Clear";
+            this.F_Clear.Size = new System.Drawing.Size(29, 28);
+            this.F_Clear.TabIndex = 5;
+            this.F_Clear.Text = "-";
+            this.F_Clear.UseVisualStyleBackColor = true;
+            this.F_Clear.Click += new System.EventHandler(this.F_Clear_Click);
             // 
             // F_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.F_Clear);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.F_Status);
             this.Controls.Add(this.F_OdersList);
@@ -218,6 +277,12 @@
         private System.Windows.Forms.ToolStripMenuItem заказToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьЗаказToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьТипToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem справочникиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem типыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem материалыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem размерыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem покупкиToolStripMenuItem;
+        private System.Windows.Forms.Button F_Clear;
     }
 }
 

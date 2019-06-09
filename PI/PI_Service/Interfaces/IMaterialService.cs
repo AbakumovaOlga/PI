@@ -19,6 +19,9 @@ namespace PI_Service.Interfaces
 
         List<MaterialBM> GetList();
 
+        List<MaterialBM> GetListSize(int id);
+
+
         List<MaterialOnStockBM> GetListOnStock();
     }
 }

@@ -55,6 +55,20 @@ namespace PI_Service.ImplementationsBD
             }
         }
 
+        public void DelBuy(BuyBM model)
+        {
+            Buy element = context.Buys.FirstOrDefault(rec => rec.Id == model.Id);
+            if (element != null)
+            {
+                context.Buys.Remove(element);
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Элемент не найден");
+            }
+        }
+
         public List<MaterialBuyBM> GetList()
         {
 

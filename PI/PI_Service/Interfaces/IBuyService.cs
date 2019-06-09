@@ -12,5 +12,7 @@ namespace PI_Service.Interfaces
         void CreateBuy(BuyBM model);
 
         List<MaterialBuyBM> GetList();
+
+        void DelBuy(BuyBM model);
     }
 }

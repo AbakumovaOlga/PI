@@ -103,6 +103,12 @@
     <Compile Include="F_Author.Designer.cs">
       <DependentUpon>F_Author.cs</DependentUpon>
     </Compile>
+    <Compile Include="F_Buys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_Buys.Designer.cs">
+      <DependentUpon>F_Buys.cs</DependentUpon>
+    </Compile>
     <Compile Include="F_Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,11 +121,35 @@
     <Compile Include="F_MaterialBuy.Designer.cs">
       <DependentUpon>F_MaterialBuy.cs</DependentUpon>
     </Compile>
+    <Compile Include="F_MaterialOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_MaterialOrder.Designer.cs">
+      <DependentUpon>F_MaterialOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_Materials.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_Materials.Designer.cs">
+      <DependentUpon>F_Materials.cs</DependentUpon>
+    </Compile>
     <Compile Include="F_MatOnStock.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="F_MatOnStock.Designer.cs">
       <DependentUpon>F_MatOnStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_Sizes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_Sizes.Designer.cs">
+      <DependentUpon>F_Sizes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_Typemys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_Typemys.Designer.cs">
+      <DependentUpon>F_Typemys.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="F_AddMat.resx">
       <DependentUpon>F_AddMat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_AddOrder.resx">
+      <DependentUpon>F_AddOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_AddSize.resx">
       <DependentUpon>F_AddSize.cs</DependentUpon>
@@ -141,14 +174,29 @@
     <EmbeddedResource Include="F_Author.resx">
       <DependentUpon>F_Author.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="F_Buys.resx">
+      <DependentUpon>F_Buys.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_Main.resx">
       <DependentUpon>F_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_MaterialBuy.resx">
       <DependentUpon>F_MaterialBuy.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="F_MaterialOrder.resx">
+      <DependentUpon>F_MaterialOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_Materials.resx">
+      <DependentUpon>F_Materials.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_MatOnStock.resx">
       <DependentUpon>F_MatOnStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_Sizes.resx">
+      <DependentUpon>F_Sizes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_Typemys.resx">
+      <DependentUpon>F_Typemys.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

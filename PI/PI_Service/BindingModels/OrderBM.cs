@@ -13,7 +13,9 @@ namespace PI_Service.BindingModels
 
         public OrderStatus Status { get; set; }
 
-        public decimal Summa { get; set; }
+        public string StatusString { get; set; }
+
+        public double Summa { get; set; }
 
         public string Customer { get; set; }
 
