@@ -24,7 +24,7 @@ namespace PI
 
         public F_MaterialBuy(IMaterialService serviceMat)
         {
-           
+
             InitializeComponent();
             _serviceMat = serviceMat;
         }
@@ -65,13 +65,13 @@ namespace PI
                     {
                         MaterialId = Convert.ToInt32(F_ChooseMat.SelectedValue),
                         Count = Convert.ToInt32(F_Count.Text),
-                        Name=_serviceMat.GetElement(Convert.ToInt32(F_ChooseMat.SelectedValue)).Name
-                        
+                        Name = _serviceMat.GetElement(Convert.ToInt32(F_ChooseMat.SelectedValue)).Name
+
                     };
 
                     MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DialogResult = DialogResult.OK;
-                    Close();
+                    this.Close();
                 }
             }
             catch (Exception ex)

@@ -59,16 +59,16 @@ namespace PI
                     return;
                 }
 
-                    model = new MaterialOrderBM
-                    {
-                        MaterialId = Convert.ToInt32(F_ChooseMat.SelectedValue),
-                        Name = _serviceMat.GetElement(Convert.ToInt32(F_ChooseMat.SelectedValue)).Name
-                    };
+                model = new MaterialOrderBM
+                {
+                    MaterialId = Convert.ToInt32(F_ChooseMat.SelectedValue),
+                    Name = _serviceMat.GetElement(Convert.ToInt32(F_ChooseMat.SelectedValue)).Name
+                };
 
-                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    DialogResult = DialogResult.OK;
-                    Close();
-                
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                this.Close();
+
             }
             catch (Exception ex)
             {

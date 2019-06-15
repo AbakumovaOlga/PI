@@ -52,6 +52,7 @@ namespace PI
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             MaterialOrders = new List<MaterialOrderBM>();
+            F_Add.Enabled = false;
         }
 
         private void F_Add_Click(object sender, EventArgs e)
@@ -66,6 +67,7 @@ namespace PI
                 }
                 LoadData();
             }
+            F_Sum.Text = _serviceO.CountSum(MaterialOrders).ToString();
         }
 
         private void LoadData()
@@ -129,6 +131,7 @@ namespace PI
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {

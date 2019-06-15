@@ -1,4 +1,5 @@
 ﻿using PI_Models;
+using PI_Service.BindingModels;
 using PI_Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,26 @@ namespace PI_Service.ImplementationsBD
             }
         }
 
+        public int GetCountOrders(int id)
+        {
+            List<OrderBM> orders = context.Orders
+                .Select(rec => new OrderBM
+                {
+                    Id = rec.Id,
+                    Customer = rec.Customer,
+                    Status = rec.Status,
+                    StatusString = rec.Status.ToString(),
+                    Summa = rec.Summa,
+                    DateCreate = rec.DateCreate,
+                    DateFinish = rec.DateFinish,
+                    UserId = rec.UserId
+                }).Where(recU=> recU.UserId==id&recU.Status!=0)
+                .ToList();
+            
+
+            return orders.Count;
+        }
+
         public User GetElement(int id)
         {
             User element = context.Users.FirstOrDefault(rec => rec.Id == id);
@@ -63,10 +84,10 @@ namespace PI_Service.ImplementationsBD
             throw new Exception("Элемент не найден");
         }
 
-        public List<User> GetList()
+        public List<UserBM> GetList()
         {
-            List<User> result = context.Users
-                 .Select(rec => new User
+            List<UserBM> result = context.Users
+                 .Select(rec => new UserBM
                  {
                      Id = rec.Id,
                      Login = rec.Login,

@@ -42,5 +42,11 @@ namespace PI
             F_List.DataSource = null;
             F_List.DataSource = _serviceS.GetList();
         }
+
+        private void F_Refresh_Click(object sender, EventArgs e)
+        {
+            LoadData();
+
+        }
     }
 }

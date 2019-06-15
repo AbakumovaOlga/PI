@@ -50,6 +50,7 @@ namespace PI
 
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
+                F_NewSize.Text = "";
             }
             catch (Exception ex)
             {
@@ -78,7 +79,8 @@ namespace PI
 
                     MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DialogResult = DialogResult.OK;
-                    // Close();
+                    
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -157,6 +159,7 @@ namespace PI
 
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
+                F_NewType.Text = "";
             }
             catch (Exception ex)
             {

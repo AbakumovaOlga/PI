@@ -61,6 +61,7 @@
     <Compile Include="BindingModels\OrderBM.cs" />
     <Compile Include="BindingModels\SizeBM.cs" />
     <Compile Include="BindingModels\TypemyBM.cs" />
+    <Compile Include="BindingModels\UserBM.cs" />
     <Compile Include="CheckFields.cs" />
     <Compile Include="ImplementationsBD\BuyServiceBD.cs" />
     <Compile Include="ImplementationsBD\OrderServiceBD.cs" />

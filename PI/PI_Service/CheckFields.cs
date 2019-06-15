@@ -55,6 +55,10 @@ namespace PI_Service
         /// <returns></returns>
         public static string CheckCount(string checkString)
         {
+            if (checkString.Length > 10)
+            {
+                return "Слишком большое число";
+            }
             try
             {
                 Convert.ToInt32(checkString);
@@ -62,10 +66,6 @@ namespace PI_Service
             catch
             {
                 return "Кол-во должно быть целым числом";
-            }
-            if (checkString.Length > 10)
-            {
-                return "Слишком большое число";
             }
             return "";
         }

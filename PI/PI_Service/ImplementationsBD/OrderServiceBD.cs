@@ -32,11 +32,12 @@ namespace PI_Service.ImplementationsBD
                         Status = model.Status,
                         DateCreate = model.DateCreate,
                         DateFinish = model.DateFinish,
-                        UserId = model.UserId
+                        UserId = model.UserId,
+                        Summa=model.Summa
                     };
                     context.Orders.Add(element);
                     context.SaveChanges();
-                  
+
                     // добавляем компоненты
                     foreach (var materialOrder in model.MaterialOrders)
                     {
@@ -116,7 +117,7 @@ namespace PI_Service.ImplementationsBD
                      {
                          Id = recMO.Id,
                          MaterialId = recMO.MaterialId,
-                         OrderId=recMO.OrderId
+                         OrderId = recMO.OrderId
                      }).ToList()
                  })
                  .ToList();
@@ -134,7 +135,7 @@ namespace PI_Service.ImplementationsBD
             context.SaveChanges();
         }
 
-        public void TakeOrderInWork(int id)
+        public void TakeOrderInWork(int id, int userId)
         {
             using (var transaction = context.Database.BeginTransaction())
             {
@@ -156,11 +157,6 @@ namespace PI_Service.ImplementationsBD
                     {
                         if (CountOst(materialOrder.MaterialId) > 0)
                         {
-                            context.MaterialOrders.Add(new MaterialOrder
-                            {
-                                OrderId = element.Id,
-                                MaterialId = materialOrder.MaterialId
-                            });
                             context.SaveChanges();
                         }
                         else
@@ -168,9 +164,9 @@ namespace PI_Service.ImplementationsBD
                             throw new Exception("Недостаточно материала");
                         }
                     }
-                    transaction.Commit();
+                   // transaction.Commit();
 
-                    element.UserId = element.UserId;
+                    element.UserId = userId;
                     element.DateFinish = DateTime.Now;
                     element.Status = OrderStatus.Выполняется;
                     context.SaveChanges();
@@ -193,11 +189,11 @@ namespace PI_Service.ImplementationsBD
             {
                 Id = rec.Id,
                 MaterialId = rec.MaterialId,
-                Count=rec.Count
+                Count = rec.Count
             }).Where(rec => rec.MaterialId == materialId).ToList();
 
 
-            foreach(var materialBuy in materialBuys)
+            foreach (var materialBuy in materialBuys)
             {
                 ost += materialBuy.Count;
             }
@@ -208,7 +204,7 @@ namespace PI_Service.ImplementationsBD
             {
                 Id = rec.Id,
                 MaterialId = rec.MaterialId,
-                OrderId=rec.OrderId
+                OrderId = rec.OrderId
             }).Where(rec => rec.MaterialId == materialId).ToList();
 
             foreach (var materialOrder in materialOrders)
@@ -237,7 +233,7 @@ namespace PI_Service.ImplementationsBD
                       DateCreate = rec.DateCreate,
                       DateFinish = rec.DateFinish,
                       UserId = rec.UserId
-                  }).Where(rec=>rec.Status==status)
+                  }).Where(rec => rec.Status == status)
                   .ToList();
             return result;
         }
@@ -248,6 +244,51 @@ namespace PI_Service.ImplementationsBD
 
             return order.Status;
 
+        }
+
+        public double CountSum(List<MaterialOrderBM> MaterialOrders)
+        {
+            double sum = 0;
+
+            foreach (MaterialOrderBM materialOrder in MaterialOrders)
+            {
+                Material mat = context.Materials.FirstOrDefault(rec => rec.Id == materialOrder.MaterialId);
+                sum += mat.Price;
+            }
+
+            return sum;
+        }
+
+        public Order GetOrder(int id)
+        {
+            return  context.Orders.FirstOrDefault(rec => rec.Id == id);
+        }
+
+        public List<MaterialOrderBM> GetOrderMaterials(int id)
+        {
+            Order order= context.Orders.FirstOrDefault(rec => rec.Id == id);
+            List<MaterialOrderBM> result=new List<MaterialOrderBM> ();
+            List<MaterialOrderBM> materialOrders = context.MaterialOrders.Select(rec => new MaterialOrderBM
+            {
+                Id = rec.Id,
+                MaterialId = rec.MaterialId,
+                OrderId = rec.OrderId
+
+            }).Where(rec => rec.OrderId == order.Id).ToList();
+
+            foreach(var mO in materialOrders)
+            {
+                Material m = context.Materials.FirstOrDefault(rec => rec.Id == mO.MaterialId);
+                result.Add(new MaterialOrderBM
+                {
+                    Id = mO.Id,
+                    Name= context.Sizes.FirstOrDefault(recS => recS.Id == m.SizeId).Name + "  " + context.Typemys.FirstOrDefault(recT => recT.Id == m.TypeId).Name + ""
+                }
+                );
+
+            }
+
+            return result;
         }
     }
 }

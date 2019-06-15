@@ -41,5 +41,11 @@ namespace PI
             form.Show();
             LoadData();
         }
+
+        private void F_Refresh_Click(object sender, EventArgs e)
+        {
+            LoadData();
+
+        }
     }
 }

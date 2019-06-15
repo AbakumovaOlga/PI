@@ -44,6 +44,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -108,6 +109,18 @@
     </Compile>
     <Compile Include="F_Buys.Designer.cs">
       <DependentUpon>F_Buys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_Diagram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_Diagram.Designer.cs">
+      <DependentUpon>F_Diagram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_InfOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_InfOrder.Designer.cs">
+      <DependentUpon>F_InfOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="F_Main.cs">
       <SubType>Form</SubType>
@@ -176,6 +189,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="F_Buys.resx">
       <DependentUpon>F_Buys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_Diagram.resx">
+      <DependentUpon>F_Diagram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_InfOrder.resx">
+      <DependentUpon>F_InfOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_Main.resx">
       <DependentUpon>F_Main.cs</DependentUpon>

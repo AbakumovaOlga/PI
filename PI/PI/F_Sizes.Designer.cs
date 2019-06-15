@@ -30,6 +30,7 @@
         {
             this.F_Add = new System.Windows.Forms.Button();
             this.F_List = new System.Windows.Forms.DataGridView();
+            this.F_Refresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.F_List)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,11 +53,22 @@
             this.F_List.Size = new System.Drawing.Size(776, 359);
             this.F_List.TabIndex = 3;
             // 
+            // F_Refresh
+            // 
+            this.F_Refresh.Location = new System.Drawing.Point(658, 399);
+            this.F_Refresh.Name = "F_Refresh";
+            this.F_Refresh.Size = new System.Drawing.Size(109, 28);
+            this.F_Refresh.TabIndex = 5;
+            this.F_Refresh.Text = "Обновить";
+            this.F_Refresh.UseVisualStyleBackColor = true;
+            this.F_Refresh.Click += new System.EventHandler(this.F_Refresh_Click);
+            // 
             // F_Sizes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.F_Refresh);
             this.Controls.Add(this.F_Add);
             this.Controls.Add(this.F_List);
             this.Name = "F_Sizes";
@@ -70,5 +82,6 @@
         #endregion
         private System.Windows.Forms.Button F_Add;
         private System.Windows.Forms.DataGridView F_List;
+        private System.Windows.Forms.Button F_Refresh;
     }
 }

@@ -35,18 +35,18 @@ namespace PI
                     MessageBox.Show("Заполните поля на форме");
                     return;
                 }
-               
-                    _serviceU.CreateUser(new User
-                    {
-                        Name = F_Name.Text,
-                        Login=F_Login.Text,
-                        Password=F_Password.Text
-                       });
 
-                    MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    DialogResult = DialogResult.OK;
-                    // Close();
-                
+                _serviceU.CreateUser(new User
+                {
+                    Name = F_Name.Text,
+                    Login = F_Login.Text,
+                    Password = F_Password.Text
+                });
+
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                this.Close();
+
             }
             catch (Exception ex)
             {

@@ -23,5 +23,7 @@ namespace PI_Service.Interfaces
 
 
         List<MaterialOnStockBM> GetListOnStock();
+
+        bool ListShop(string fileName);
     }
 }

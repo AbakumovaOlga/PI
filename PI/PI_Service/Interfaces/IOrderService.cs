@@ -16,15 +16,20 @@ namespace PI_Service.Interfaces
 
         List<OrderBM> GetList();
 
+        Order GetOrder(int id);
+        List<MaterialOrderBM> GetOrderMaterials(int id);
+
         List<OrderBM> GetListSatus(OrderStatus status);
 
-        void TakeOrderInWork(int id);
+        void TakeOrderInWork(int id, int userId);
 
         void FinishOrder(int id);
 
         void PayOrder(int id);
 
         int CountOst(int materialId);
+
+        double CountSum(List<MaterialOrderBM> MaterialOrders);
 
         OrderStatus GetStatus(int id);
     }

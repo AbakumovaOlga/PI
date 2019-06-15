@@ -21,21 +21,22 @@ namespace PI
         public int userId { get; set; }
 
         private readonly IOrderService _serviceO;
-
+        private readonly IMaterialService _serviceMat;
 
         //public Logger logger;
 
-        public F_Main(IOrderService serviceO)
+        public F_Main( IOrderService serviceO, IMaterialService serviceMat)
         {
             InitializeComponent();
             _serviceO = serviceO;
+            _serviceMat = serviceMat;
             F_Status.SelectedIndex = -1;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             F_Status.DataSource = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
-            
+            F_Status.SelectedIndex = -1;
 
             F_OdersList.DataSource = _serviceO.GetList();
         }
@@ -79,6 +80,30 @@ namespace PI
 
         private void распечатьСписокПокупокToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "doc|*.doc|docx|*.docx"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    //CreateDoc(sfd.FileName);
+
+                    if (_serviceMat.ListShop(sfd.FileName))
+                    {
+                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("не удалось сохранить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
         }
 
@@ -96,19 +121,23 @@ namespace PI
 
         private void F_Status_SelectedIndexChanged(object sender, EventArgs e)
         {
-            F_OdersList.DataSource = _serviceO.GetListSatus((OrderStatus)Enum.Parse(typeof(OrderStatus), F_Status.SelectedValue.ToString()));
+            if (F_Status.SelectedIndex != -1)
+            {
+                F_OdersList.DataSource = _serviceO.GetListSatus((OrderStatus)Enum.Parse(typeof(OrderStatus), F_Status.SelectedValue.ToString()));
+            }
         }
 
-       
+
 
         private void LoadData()
         {
-            F_OdersList.DataSource = _serviceO.GetListSatus((OrderStatus)Enum.Parse(typeof(OrderStatus), F_Status.SelectedValue.ToString()));
+            if (F_Status.SelectedIndex != -1)
+                F_OdersList.DataSource = _serviceO.GetListSatus((OrderStatus)Enum.Parse(typeof(OrderStatus), F_Status.SelectedValue.ToString()));
         }
 
         private void F_Clear_Click(object sender, EventArgs e)
         {
-            F_Status.SelectedItem = -1;
+            F_Status.SelectedIndex = -1;
 
             F_OdersList.DataSource = _serviceO.GetList();
         }
@@ -131,7 +160,27 @@ namespace PI
             form.Show();
         }
 
-        private void F_OdersList_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void F_Del_Click(object sender, EventArgs e)
+        {
+            if (F_OdersList.SelectedRows.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int id = Convert.ToInt32(F_OdersList.SelectedRows[0].Cells[0].Value);
+                    try
+                    {
+                        _serviceO.DelOrder(id);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    LoadData();
+                }
+            }
+        }
+
+        private void F_OdersList_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (F_OdersList.SelectedRows.Count == 1)
             {
@@ -139,19 +188,25 @@ namespace PI
                 {
 
                     case OrderStatus.Принят:
-
-                        if (MessageBox.Show("Принять в обработку?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        try
                         {
-                            int id = Convert.ToInt32(F_OdersList.SelectedRows[0].Cells[0].Value);
-                            try
+                            if (MessageBox.Show("Принять в обработку?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                _serviceO.TakeOrderInWork(id);
+                                int id = Convert.ToInt32(F_OdersList.SelectedRows[0].Cells[0].Value);
+                                try
+                                {
+                                    _serviceO.TakeOrderInWork(id,userId);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                LoadData();
                             }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                            LoadData();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
                         }
                         break;
 
@@ -188,5 +243,24 @@ namespace PI
                 }
             }
         }
+
+        private void F_Inf_Click(object sender, EventArgs e)
+        {
+            if (F_OdersList.SelectedRows.Count == 1)
+            {
+                int id = Convert.ToInt32(F_OdersList.SelectedRows[0].Cells[0].Value);
+                var form = Container.Resolve<F_InfOrder>();
+                form.orderId = id;
+                form.Show();
+            }
+
+        }
+
+        private void статистикаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<F_Diagram>();
+            form.Show();
+        }
+        
     }
 }

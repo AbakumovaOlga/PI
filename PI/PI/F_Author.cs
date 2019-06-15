@@ -41,8 +41,6 @@ namespace PI
                 form.userId = user.Id;
                 // form.logger = logger;
                 form.Show();
-
-                //this.Hide();
             }
             catch (Exception ex)
             {

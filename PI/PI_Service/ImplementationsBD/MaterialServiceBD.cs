@@ -1,8 +1,10 @@
-﻿using PI_Models;
+﻿using Microsoft.Office.Interop.Word;
+using PI_Models;
 using PI_Service.BindingModels;
 using PI_Service.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,22 +85,7 @@ namespace PI_Service.ImplementationsBD
 
             foreach (var mat in materials)
             {
-                /* int buys = 0;
-                 List<MaterialBuyBM> materialBuys = context.MaterialBuys.Select(rec => new MaterialBuyBM
-                 {
-                     Id = rec.Id,
-                     Count = rec.Count,
-                     MaterialId=rec.MaterialId
-                 }).Where(rec => rec.MaterialId == mat.Id)//ошибка materialID
-                         .ToList();
-
-                 foreach (MaterialBuyBM materialBuy in materialBuys)
-                 {
-                     buys += materialBuy.Count;
-                 }
-                 //выбрать такие заказы, где нужный статус 1,2,3  buys --;
-                 throw new NotImplementedException();
- */
+               
 
                 matOnStock.Add(new MaterialOnStockBM
                 {
@@ -137,6 +124,7 @@ namespace PI_Service.ImplementationsBD
 
         public int CountOst(int materialId)
         {
+
             int ost = 0; //контрольное значение
 
             //считаем покупки
@@ -188,6 +176,155 @@ namespace PI_Service.ImplementationsBD
                }).Where(rec =>rec.SizeId==id)
                .ToList();
             return result;
+        }
+
+        public bool ListShop(string fileName)
+        {
+            List<MaterialBM> materials = GetList();
+            List<MaterialOnStockBM> matOnStock = new List<MaterialOnStockBM>();
+           
+            foreach (var mat in materials)
+            {
+                int need = 0;
+                List<MaterialOrderBM> materialOrders = context.MaterialOrders.Select(rec => new MaterialOrderBM
+                {
+                    Id = rec.Id,
+                    MaterialId = rec.MaterialId,
+                    OrderId = rec.OrderId
+                }).Where(rec => rec.MaterialId == mat.Id).ToList();
+
+                foreach (var materialOrder in materialOrders)
+                {
+                    Order order = context.Orders.FirstOrDefault(rec => rec.Id == materialOrder.OrderId);
+                    if (order.Status == 0)
+                    {
+                        need++;
+                    }
+                }
+                if (need - CountOst(mat.Id) > 0)
+                {
+                    matOnStock.Add(new MaterialOnStockBM
+                    {
+                        Id = mat.Id,
+                        Name = context.Sizes.FirstOrDefault(recS => recS.Id == mat.SizeId).Name + "  " + context.Typemys.FirstOrDefault(recT => recT.Id == mat.TypeId).Name + "",
+                        CountNeed = need - CountOst(mat.Id)
+                    });
+                }
+            }
+
+
+
+
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            var winword = new Microsoft.Office.Interop.Word.Application();
+            try
+            {
+                object missing = System.Reflection.Missing.Value;
+                //создаем документ
+                Microsoft.Office.Interop.Word.Document document =
+                    winword.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+                //получаем ссылку на параграф
+                var paragraph = document.Paragraphs.Add(missing);
+                var range = paragraph.Range;
+                //задаем текстВ
+                range.Text = "Список покупок";
+
+                //задаем настройки шрифта
+                var font = range.Font;
+                font.Size = 16;
+                font.Name = "Times New Roman";
+                font.Bold = 1;
+                //задаем настройки абзаца
+                var paragraphFormat = range.ParagraphFormat;
+                paragraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                paragraphFormat.LineSpacingRule = WdLineSpacing.wdLineSpaceSingle;
+                paragraphFormat.SpaceAfter = 10;
+                paragraphFormat.SpaceBefore = 0;
+                //добавляем абзац в документ
+                range.InsertParagraphAfter();
+
+                var paragraph12 = document.Paragraphs.Add(missing);
+                var range12 = paragraph12.Range;
+                //задаем текстВ
+                range12.Text = "Печать от даты " + (DateTime.Now.Date).ToString("yyyy.MM.dd");
+
+                //задаем настройки шрифта
+                var font12 = range12.Font;
+                font12.Size = 16;
+                font12.Name = "Times New Roman";
+                font12.Bold = 1;
+                //задаем настройки абзаца
+                var paragraphFormat12 = range12.ParagraphFormat;
+                paragraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                paragraphFormat.LineSpacingRule = WdLineSpacing.wdLineSpaceSingle;
+                paragraphFormat.SpaceAfter = 10;
+                paragraphFormat.SpaceBefore = 0;
+                //добавляем абзац в документ
+                range12.InsertParagraphAfter();
+
+
+              
+                //создаем таблицу
+
+              
+
+
+
+                var paragraphTable = document.Paragraphs.Add(Type.Missing);
+                var rangeTable = paragraphTable.Range;
+                var table = document.Tables.Add(rangeTable, matOnStock.Count + 1, 3, ref missing, ref missing);
+
+                font = table.Range.Font;
+                font.Size = 14;
+                font.Name = "Times New Roman";
+
+                var paragraphTableFormat = table.Range.ParagraphFormat;
+                paragraphTableFormat.LineSpacingRule = WdLineSpacing.wdLineSpaceSingle;
+                paragraphTableFormat.SpaceAfter = 0;
+                paragraphTableFormat.SpaceBefore = 0;
+
+
+                table.Cell(1, 1).Range.Text = "Номер";
+                table.Cell(1, 2).Range.Text = "Материал";
+                table.Cell(1, 3).Range.Text = "Кол-во";
+                //table.Cell(1, 4).Range.Text = "Сумма";
+
+                for (int i = 0; i < matOnStock.Count; ++i)
+                {
+                    table.Cell(i + 2, 1).Range.Text = (matOnStock[i].Id).ToString();
+                    table.Cell(i + 2, 2).Range.Text = matOnStock[i].Name;
+                    table.Cell(i + 2, 3).Range.Text = (matOnStock[i].CountNeed).ToString();
+                }
+                //задаем границы таблицы
+                table.Borders.InsideLineStyle = WdLineStyle.wdLineStyleInset;
+                table.Borders.OutsideLineStyle = WdLineStyle.wdLineStyleSingle;
+
+              
+                //сохраняем
+                object fileFormat = WdSaveFormat.wdFormatXMLDocument;
+                document.SaveAs(fileName, ref fileFormat, ref missing,
+                    ref missing, ref missing, ref missing, ref missing,
+                    ref missing, ref missing, ref missing, ref missing,
+                    ref missing, ref missing, ref missing, ref missing,
+                    ref missing);
+                document.Close(ref missing, ref missing, ref missing);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+
+            }
+            finally
+            {
+                winword.Quit();
+            }
+
         }
     }
 }

@@ -42,6 +42,7 @@ namespace PI
 
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {

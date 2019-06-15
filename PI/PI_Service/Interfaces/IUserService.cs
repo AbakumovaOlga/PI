@@ -1,4 +1,5 @@
 ﻿using PI_Models;
+using PI_Service.BindingModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,10 @@ namespace PI_Service.Interfaces
 
         void DelUser(User model);
 
-        List<User> GetList();
+        List<UserBM> GetList();
 
         User GetElement(int id);
+
+        int GetCountOrders(int id);
     }
 }
